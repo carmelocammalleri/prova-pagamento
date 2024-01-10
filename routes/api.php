@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Orders\OrderController;
+use App\Http\Controllers\Api\Products\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/generate', [OrderController::class, 'generate']);
 Route::post('/makePayment', [OrderController::class, 'makePayment']);
+Route::get('/products',[ProductController::class, 'index']);
