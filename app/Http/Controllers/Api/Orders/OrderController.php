@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Braintree\Gateway;
 use App\Http\Requests\Orders\OrderRequest;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -20,8 +21,10 @@ class OrderController extends Controller
     }
 
     public function makePayment(OrderRequest $request, Gateway $gateway){
+        $product= Product::find($request->product);
         $result = $gateway->transaction()->sale([
-            'amount'=>$request->amount,
+
+            'amount'=>$product->price,
             'paymentMethodNonce'=>$request->token,
             'options'=>[
                 'submitForSettlement'=>true
@@ -40,7 +43,6 @@ class OrderController extends Controller
                 'message'=> 'transazione NON eseguita'
             ];
             return response()->json($data, 401);
-
         };
     }
 }
